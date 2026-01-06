@@ -194,6 +194,81 @@
       </div>
     </div>
 
+    <!-- 微信贊助 Modal -->
+    <div id="wechat-sponsor-modal" class="modal">
+      <div class="modal-content" style="max-width: 400px; text-align: center">
+        <span
+          class="close-wechat-modal"
+          style="
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+          "
+          >&times;</span
+        >
+        <h2 style="margin-top: 0; color: #07c160">💚 微信贊助</h2>
+        <div style="padding: 20px">
+          <p style="margin-bottom: 20px; color: #666">
+            掃描下方二維碼進行贊助<br />
+            感謝你的支持！🙏
+          </p>
+          <div
+            style="
+              background: white;
+              padding: 20px;
+              border-radius: 12px;
+              display: inline-block;
+              box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            "
+          >
+            <img
+              id="wechat-qr-code"
+              src="wechat-qr.png"
+              alt="微信支付二維碼"
+              style="
+                width: 250px;
+                height: 250px;
+                display: block;
+                margin: 0 auto;
+                border-radius: 8px;
+              "
+              onerror="this.style.display='none'; document.getElementById('wechat-qr-placeholder').style.display='flex';"
+            />
+            <div
+              id="wechat-qr-placeholder"
+              style="
+                width: 250px;
+                height: 250px;
+                display: none;
+                background: #f5f5f5;
+                border: 2px dashed #ddd;
+                border-radius: 8px;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                color: #999;
+                font-size: 14px;
+                margin: 0 auto;
+              "
+            >
+              <div style="text-align: center">
+                <p style="margin: 0">請上傳微信支付二維碼</p>
+                <p style="font-size: 12px; margin-top: 10px; margin-bottom: 0">
+                  將二維碼圖片命名為 <code>wechat-qr.png</code><br />
+                  放在專案根目錄中
+                </p>
+              </div>
+            </div>
+          </div>
+          <p style="margin-top: 20px; font-size: 12px; color: #999">
+            💡 提示：請使用微信掃描二維碼進行支付
+          </p>
+        </div>
+      </div>
+    </div>
+
     <script src="https://www.youtube.com/iframe_api"></script>
     <script src="script.js"></script>
 
@@ -209,6 +284,78 @@
         margin-top: 40px;
       "
     >
+      <!-- 贊助區塊 -->
+      <div
+        style="
+          margin-bottom: 20px;
+          padding: 15px;
+          background: white;
+          border-radius: 12px;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        "
+      >
+        <p
+          style="
+            margin: 0 0 10px 0;
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+          "
+        >
+          ☕ 如果這個工具對你有幫助，歡迎贊助支持！
+        </p>
+        <div
+          style="
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+          "
+        >
+          <a
+            href="https://buymeacoffee.com/retioklp"
+            target="_blank"
+            style="
+              display: inline-block;
+              padding: 10px 20px;
+              background: #ffdd00;
+              color: #000;
+              text-decoration: none;
+              border-radius: 8px;
+              font-weight: 600;
+              font-size: 14px;
+              transition: transform 0.2s;
+            "
+            onmouseover="this.style.transform='scale(1.05)'"
+            onmouseout="this.style.transform='scale(1)'"
+          >
+            ☕ Buy Me a Coffee
+          </a>
+          <button
+            id="wechat-sponsor-btn"
+            style="
+              display: inline-block;
+              padding: 10px 20px;
+              background: #07c160;
+              color: white;
+              border: none;
+              border-radius: 8px;
+              font-weight: 600;
+              font-size: 14px;
+              cursor: pointer;
+              transition: transform 0.2s;
+            "
+            onmouseover="this.style.transform='scale(1.05)'"
+            onmouseout="this.style.transform='scale(1)'"
+          >
+            💚 微信贊助
+          </button>
+        </div>
+        <p style="margin: 10px 0 0 0; font-size: 11px; opacity: 0.7">
+          你的支持是我持續改進的動力 💪
+        </p>
+      </div>
+
       <p style="margin: 5px 0">
         本工具僅供個人學習使用，所有影片內容由 YouTube/Bilibili 提供
       </p>

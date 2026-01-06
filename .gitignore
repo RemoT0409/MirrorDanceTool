@@ -1,0 +1,7 @@
+# 私有文件（不提交到公開倉庫）
+# 這些文件包含內部資訊，請在本地保留
+
+DEPLOY.md
+SECURITY_CHECK.md
+SPONSOR_GUIDE.md
+PRIVATE_FILES_GUIDE.md

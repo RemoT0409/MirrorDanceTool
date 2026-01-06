@@ -1085,6 +1085,32 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // 微信贊助功能
+    const wechatSponsorBtn = document.getElementById('wechat-sponsor-btn');
+    const wechatModal = document.getElementById('wechat-sponsor-modal');
+    const closeWechatModal = document.querySelector('.close-wechat-modal');
+
+    if (wechatSponsorBtn) {
+        wechatSponsorBtn.addEventListener('click', () => {
+            wechatModal.style.display = 'block';
+        });
+    }
+
+    if (closeWechatModal) {
+        closeWechatModal.addEventListener('click', () => {
+            wechatModal.style.display = 'none';
+        });
+    }
+
+    // 點擊微信 Modal 外部關閉
+    if (wechatModal) {
+        wechatModal.addEventListener('click', (e) => {
+            if (e.target.id === 'wechat-sponsor-modal') {
+                wechatModal.style.display = 'none';
+            }
+        });
+    }
+
     // 如果 YouTube API 已經載入，初始化
     if (typeof YT !== 'undefined' && YT.Player) {
         onYouTubeIframeAPIReady();
