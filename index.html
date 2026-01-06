@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>舞蹈片段學習工具</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>🎬 舞蹈片段學習工具</h1>
+        <p class="subtitle">拆解影片段落，反覆練習每個動作</p>
+      </header>
+
+      <!-- 影片連結輸入區 -->
+      <section class="video-input-section">
+        <div class="input-group">
+          <label for="video-url">貼上影片連結（支援 YouTube / Bilibili）</label>
+          <div class="url-input-wrapper">
+            <input
+              type="text"
+              id="video-url"
+              placeholder="https://www.youtube.com/watch?v=... 或 https://www.bilibili.com/video/..."
+              autocomplete="off"
+            />
+            <button id="load-video-btn" class="btn btn-primary">
+              載入影片
+            </button>
+          </div>
+          <div
+            style="
+              margin-top: 10px;
+              padding: 10px;
+              background: #fff3cd;
+              border-left: 4px solid #ffc107;
+              border-radius: 4px;
+              font-size: 12px;
+              color: #856404;
+            "
+          >
+            <strong>💡 提示：</strong> YouTube
+            影片支援完整功能（自動分段、時間控制等）。Bilibili
+            影片可能因區域限制或版權限制無法嵌入播放，建議優先使用 YouTube
+            連結。
+          </div>
+        </div>
+      </section>
+
+      <!-- 影片播放區 -->
+      <section class="video-section" id="video-section" style="display: none">
+        <div class="video-wrapper">
+          <div id="video-player"></div>
+        </div>
+
+        <!-- 影片控制區 -->
+        <div class="video-controls">
+          <div class="time-display">
+            <span id="current-time">00:00</span> /
+            <span id="total-time">00:00</span>
+          </div>
+          <div class="control-buttons">
+            <button id="play-pause-btn" class="btn btn-control">▶️ 播放</button>
+            <button id="stop-btn" class="btn btn-control">⏹️ 停止</button>
+            <button id="mirror-btn" class="btn btn-control">🪞 鏡像</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- 自動分段區 -->
+      <section
+        class="auto-segment-section"
+        id="auto-segment-section"
+        style="display: none"
+      >
+        <h2>⚡ 自動分段</h2>
+        <div class="auto-segment-controls">
+          <div class="auto-segment-input">
+            <label for="segment-interval">每段時間長度（秒）</label>
+            <input
+              type="number"
+              id="segment-interval"
+              placeholder="例如：10"
+              min="5"
+              max="300"
+              value="10"
+            />
+          </div>
+          <button id="auto-segment-btn" class="btn btn-primary">
+            🔀 自動分段
+          </button>
+          <button id="clear-auto-segments-btn" class="btn btn-secondary">
+            清除自動分段
+          </button>
+        </div>
+        <div id="auto-segments-preview" class="auto-segments-preview"></div>
+      </section>
+
+      <!-- A-B 段落切割區 -->
+      <section
+        class="segment-section"
+        id="segment-section"
+        style="display: none"
+      >
+        <h2>✂️ 手動新增練習段落</h2>
+        <div class="segment-inputs">
+          <div class="time-input-group">
+            <label for="start-time">開始時間</label>
+            <input
+              type="text"
+              id="start-time"
+              placeholder="00:00.0"
+              pattern="[0-9]{1,2}:[0-5][0-9]\.[0-9]"
+            />
+            <button id="set-start-btn" class="btn btn-small">
+              設為當前時間
+            </button>
+          </div>
+          <div class="time-input-group">
+            <label for="end-time">結束時間</label>
+            <input
+              type="text"
+              id="end-time"
+              placeholder="00:00.0"
+              pattern="[0-9]{1,2}:[0-5][0-9]\.[0-9]"
+            />
+            <button id="set-end-btn" class="btn btn-small">設為當前時間</button>
+          </div>
+        </div>
+        <div class="segment-actions">
+          <input
+            type="text"
+            id="segment-name"
+            placeholder="段落名稱（選填）"
+            class="segment-name-input"
+          />
+          <button id="add-segment-btn" class="btn btn-success">
+            ➕ 新增練習段
+          </button>
+        </div>
+      </section>
+
+      <!-- 練習清單 -->
+      <section
+        class="playlist-section"
+        id="playlist-section"
+        style="display: none"
+      >
+        <h2>📋 練習清單</h2>
+        <div id="segments-list" class="segments-list">
+          <!-- 段落項目將動態插入這裡 -->
+        </div>
+      </section>
+    </div>
+
+    <!-- 段落詳情 Modal -->
+    <div id="segment-modal" class="modal">
+      <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <h2>編輯段落</h2>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="modal-segment-name">段落名稱</label>
+            <input
+              type="text"
+              id="modal-segment-name"
+              placeholder="例如：基本步"
+            />
+          </div>
+          <div class="form-group">
+            <label for="modal-start-time">開始時間</label>
+            <input type="text" id="modal-start-time" placeholder="00:00.0" />
+          </div>
+          <div class="form-group">
+            <label for="modal-end-time">結束時間</label>
+            <input type="text" id="modal-end-time" placeholder="00:00.0" />
+          </div>
+          <div class="form-group">
+            <label for="modal-notes">註解</label>
+            <textarea
+              id="modal-notes"
+              rows="4"
+              placeholder="輸入重心、拍子、技巧提醒等...&#10;例如：&#10;- 重心在右腳&#10;- 第2拍開始&#10;- 這裡手會慢一點"
+            ></textarea>
+          </div>
+          <div class="modal-actions">
+            <button id="save-segment-btn" class="btn btn-primary">儲存</button>
+            <button id="delete-segment-btn" class="btn btn-danger">刪除</button>
+            <button id="cancel-modal-btn" class="btn btn-secondary">
+              取消
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script src="script.js"></script>
+
+    <!-- 免責聲明 -->
+    <footer
+      style="
+        text-align: center;
+        padding: 20px;
+        background: #f8f9fa;
+        border-top: 1px solid #e2e8f0;
+        color: #666;
+        font-size: 12px;
+        margin-top: 40px;
+      "
+    >
+      <p style="margin: 5px 0">
+        本工具僅供個人學習使用，所有影片內容由 YouTube/Bilibili 提供
+      </p>
+      <p style="margin: 5px 0">使用者需遵守相關平台的使用條款和版權規定</p>
+      <p style="margin: 5px 0; opacity: 0.7">
+        本工具不儲存、不下載、不複製任何影片內容
+      </p>
+    </footer>
+  </body>
+</html>
